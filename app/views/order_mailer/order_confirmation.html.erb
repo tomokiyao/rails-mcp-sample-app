@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+  <h1><%= @user.name %>様、ご注文ありがとうございます！</h1>
+
+  <p>
+    以下のご注文を承りました。
+  </p>
+
+  <h2>ご注文内容</h2>
+  <p><strong>注文ID:</strong> <%= @order.id %></p>
+  <p><strong>注文日時:</strong> <%= l @order.created_at, format: :long %></p>
+
+  <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>商品名</th>
+        <th>単価</th>
+        <th>数量</th>
+        <th>小計</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.order_items.each do |item| %>
+        <tr>
+          <td><%= item.product.name %></td>
+          <td><%= number_to_currency(item.price_at_purchase, unit: "円", precision: 0) %></td>
+          <td><%= item.quantity %></td>
+          <td><%= number_to_currency(item.subtotal, unit: "円", precision: 0) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <p><strong>合計金額:</strong> <%= number_to_currency(@order.total_amount, unit: "円", precision: 0) %></p>
+
+  <p>商品の到着まで今しばらくお待ちください。</p>
+
+  <p>
+    --------------------<br>
+    <%= Rails.application.class.module_parent_name %><br>
+    </p>
+</body>
+</html>

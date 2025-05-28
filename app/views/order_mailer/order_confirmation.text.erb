@@ -1,0 +1,24 @@
+<%= @user.name %>様、ご注文ありがとうございます！
+
+以下のご注文を承りました。
+
+■ ご注文内容
+注文ID: <%= @order.id %>
+注文日時: <%= l @order.created_at, format: :long %>
+
+--------------------
+<% @order.order_items.each do |item| %>
+商品名: <%= item.product.name %>
+単価: <%= number_to_currency(item.price_at_purchase, unit: "円", precision: 0) %>
+数量: <%= item.quantity %>
+小計: <%= number_to_currency(item.subtotal, unit: "円", precision: 0) %>
+--------------------
+<% end %>
+
+合計金額: <%= number_to_currency(@order.total_amount, unit: "円", precision: 0) %>
+
+商品の到着まで今しばらくお待ちください。
+
+--------------------
+<%= Rails.application.class.module_parent_name %>
+<%# (ここにサイトURLなど) %>
